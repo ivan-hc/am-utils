@@ -2,8 +2,30 @@
 
 ARCH="$(uname -m)"
 
-busybox_utils=$(busybox --list | xargs)
-utils="7z file curl zsync $busybox_utils"
+#busybox_utils=$(busybox --list | xargs)
+#utils="7z file curl zsync $busybox_utils"
+utils="7z \
+ar \
+base64 basename bzip2 \
+chmod chown chroot clear column cp curl cut \
+dd dirname \
+echo \
+file fold \
+grep \
+head \
+id \
+kill killall \
+less ln ls \
+md5sum mkdir more mount mv \
+printf \
+readlink realpath rev rm \
+sed sh sha1sum sha256sum sha3sum sha512sum sleep sort strings strip swapoff swapon \
+tail tar tee test tput top touch tr tty \
+umount uname uncompress uniq unshare unzip uptime \
+watch wc wget which whoami \
+xargs xz xzcat \
+yes \
+zcat zsync"
 
 # --------------------- ONELF
 
