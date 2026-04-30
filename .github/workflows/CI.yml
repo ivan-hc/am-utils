@@ -30,8 +30,8 @@ jobs:
 
           if [ "${{ matrix.arch }}" == "aarch64" ]; then
             PLATFORM="linux/arm64"
-          #elif [ "${{ matrix.arch }}" == "i686" ]; then
-          #  PLATFORM="linux/386"
+          elif [ "${{ matrix.arch }}" == "i686" ]; then
+            PLATFORM="linux/386"
           else
             PLATFORM="linux/amd64"
           fi
