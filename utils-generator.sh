@@ -1,0 +1,83 @@
+#!/bin/sh
+
+ARCH="$(uname -m)"
+
+busybox_utils=$(busybox --list | xargs)
+utils="7z file curl zsync $busybox_utils"
+
+# --------------------- ONELF
+
+_onelf() {
+	if ! command -v onelf 1>/dev/null; then
+		if [ ! -f ./onelf ]; then
+			echo " Downloading onelf..." && curl -#Lo onelf https://github.com/QaidVoid/onelf/releases/download/0.2.3/onelf-"$ARCH"-linux && chmod a+x ./onelf || exit 1
+		fi
+		./onelf "$@"
+	else
+		onelf "$@"
+	fi
+}
+
+_use_onelf() {
+	mkdir -p am-bins
+	for b in $utils; do
+		bin="$(which "$b" | head -1)"
+		_onelf bundle-libs bins/"$b" --from-binary "$bin"
+		_onelf pack bins/"$b" -o "$b".bin --command bin/"$b" --level 22
+		mv "$b".bin am-bins/"$b"
+	done
+}
+
+# --------------------- QUICK-SHARUN
+
+_quick_sharun() {
+	if ! command -v quick-sharun 1>/dev/null; then
+		if [ ! -f ./quick-sharun ]; then
+			echo " Downloading quick-sharun..." && curl -#Lo quick-sharun https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh && chmod a+x ./quick-sharun || exit 1
+		fi
+		./quick-sharun "$@"
+	else
+		quick-sharun "$@"
+	fi
+}
+
+_use_quick_sharun() {
+	for b in $utils; do
+		_quick_sharun --make-static-bin --dst-dir am-bins "$(which "$b" | head -1)"
+	done
+}
+
+# --------------------- SHARUN
+
+_sharun() {
+	if ! command -v sharun 1>/dev/null; then
+		if [ ! -f ./sharun ]; then
+			echo " Downloading sharun..." && curl -#Lo sharun https://github.com/VHSgunzo/sharun/releases/download/v0.8.1/sharun-"$ARCH" && chmod a+x ./sharun || exit 1
+		fi
+		./sharun "$@"
+	else
+		sharun "$@"
+	fi
+}
+
+_use_sharun() {
+	for b in $utils; do
+		_sharun lib4bin --with-wrappe --dst-dir am-bins "$(which "$b" | head -1)"
+	done
+}
+
+# --------------------- RUN ONE BETWEEN ONELF AND SHARUN
+
+#_use_onelf
+#_use_quick_sharun
+_use_sharun
+
+bins=$(ls ./am-bins/ | xargs)
+for b in $bins; do
+	pkgname=$(dpkg -S "$(which "$b")" | awk -F':' '{print $1}' | head -1)
+	pkgver=$(apt-cache show "$pkgname" | grep -i version | awk '{print $2}' | head -1)
+	cp am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static
+  cp am-bins/"$b" ./"$b"-"${ARCH}"-static
+done
+
+echo "Success!"
