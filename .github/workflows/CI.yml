@@ -52,6 +52,9 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64, i686]
 
     steps:
       - name: Download all artifacts
@@ -84,37 +87,13 @@ jobs:
       #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Continuous release
-      - name: release
+      - name: Release (${{ matrix.arch }})
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: x86_64
-          automatic_release_tag: continuous-x86_64
+          title: ${{ matrix.arch }}
+          automatic_release_tag: continuous-${{ matrix.arch }}
           prerelease: true
           draft: false
           files: |
-            merged/*-x86_64-static
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Continuous release
-      - name: release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          title: aarch64
-          automatic_release_tag: continuous-aarch64
-          prerelease: true
-          draft: false
-          files: |
-            merged/*-aarch64-static
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Continuous release
-      - name: release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          title: i686
-          automatic_release_tag: continuous-i686
-          prerelease: true
-          draft: false
-          files: |
-            merged/*-i686-static
+            merged/*-${{ matrix.arch }}-static
           repo_token: ${{ secrets.GITHUB_TOKEN }}
