@@ -85,10 +85,34 @@ jobs:
       - name: release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: Static binaries
-          automatic_release_tag: continuous
-          prerelease: false
+          title: x86_64
+          automatic_release_tag: continuous-x86_64
+          prerelease: true
           draft: false
           files: |
-            merged/*-static
+            merged/*-x86_64-static
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Continuous release
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: aarch64
+          automatic_release_tag: continuous-aarch64
+          prerelease: true
+          draft: false
+          files: |
+            merged/*-aarch64-static
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Continuous release
+      - name: release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: i686
+          automatic_release_tag: continuous-i686
+          prerelease: true
+          draft: false
+          files: |
+            merged/*-i686-static
           repo_token: ${{ secrets.GITHUB_TOKEN }}
