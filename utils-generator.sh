@@ -76,8 +76,8 @@ bins=$(ls ./am-bins/ | xargs)
 for b in $bins; do
 	pkgname=$(dpkg -S "$(which "$b")" | awk -F':' '{print $1}' | head -1)
 	pkgver=$(apt-cache show "$pkgname" | grep -i version | awk '{print $2}' | head -1)
-	cp am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static
-  cp am-bins/"$b" ./"$b"-"${ARCH}"-static
+	cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static
+	cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static
 done
 
 echo "Success!"
