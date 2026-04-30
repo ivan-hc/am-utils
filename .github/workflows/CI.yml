@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [x86_64, aarch64, i686]
+        #arch: [x86_64, aarch64, i686]
+        arch: [x86_64, aarch64]
 
     steps:
       - name: Checkout repository
@@ -20,7 +21,8 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: arm64,386
+          #platforms: arm64,386
+          platforms: arm64
 
       - name: Run script in container
         run: |
@@ -28,8 +30,8 @@ jobs:
 
           if [ "${{ matrix.arch }}" == "aarch64" ]; then
             PLATFORM="linux/arm64"
-          elif [ "${{ matrix.arch }}" == "i686" ]; then
-            PLATFORM="linux/386"
+          #elif [ "${{ matrix.arch }}" == "i686" ]; then
+          #  PLATFORM="linux/386"
           else
             PLATFORM="linux/amd64"
           fi
@@ -54,7 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [x86_64, aarch64, i686]
+        #arch: [x86_64, aarch64, i686]
+        arch: [x86_64, aarch64]
 
     steps:
       - name: Download all artifacts
