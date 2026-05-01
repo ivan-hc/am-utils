@@ -19,7 +19,7 @@ less ln ls \
 md5sum mkdir more mount mv \
 printf \
 readlink realpath rev rm \
-sed sh sha1sum sha256sum sha3sum sha512sum sleep sort strings strip swapoff swapon \
+sed sh sha1sum sha256sum sha512sum sleep sort strings strip swapoff swapon \
 tail tar tee test tput top touch tr tty \
 umount uname uncompress uniq unshare unzip uptime \
 watch wc wget which whoami \
