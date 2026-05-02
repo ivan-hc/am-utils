@@ -92,18 +92,16 @@ for b in $utils; do
 	pkgname=$(dpkg -S "$(which "$b")" 2>/dev/null | awk -F':' '{print $1}' | head -1)
 	pkgver=$(apt-cache show "$pkgname" 2>/dev/null | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
 	if [ -n "$pkgver" ]; then
-		cmd_type="$(file "$(which "$b" | head -1)")"
-		if [ "$b" = 7z ]; then
-			binpath="/usr/lib/7zip/7zz"
-		else
-			binpath=$(which "$b" | head -1)
-		fi
-		if [ "$b" = 7z ]; then
-			mv ./am-bins/7zz ./am-bins/"$b" || exit 1
-		fi
+
+		if [ "$b" = 7z ]; then binpath="/usr/lib/7zip/7zz"
+		else	binpath=$(which "$b" | head -1); fi
+		
 		#_use_onelf
 		_use_quick_sharun
 		#_use_sharun
+
+		if [ "$b" = 7z ]; then mv ./am-bins/7zz ./am-bins/"$b" || exit 1; fi
+
 		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
 		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
 	else
