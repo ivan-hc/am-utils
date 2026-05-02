@@ -2,6 +2,10 @@
 
 ARCH="$(uname -m)"
 
+RED='\033[0;31m'
+command -v tput >/dev/null 2>&1 && TERMINAL_WIDTH="$(("$(tput cols)"-"3"))" || TERMINAL_WIDTH="${COLUMNS:-80}"
+DIVIDING_LINE=$(printf '%*s' "$TERMINAL_WIDTH" '' | tr ' ' '-')
+
 #busybox_utils=$(busybox --list | xargs)
 #utils="7z file curl zsync $busybox_utils"
 utils="7z \
@@ -42,12 +46,10 @@ _onelf() {
 
 _use_onelf() {
 	mkdir -p am-bins
-	for b in $utils; do
-		bin="$(which "$b" | head -1)"
-		_onelf bundle-libs bins/"$b" --from-binary "$bin"
-		_onelf pack bins/"$b" -o "$b".bin --command bin/"$b" --level 22
-		mv "$b".bin am-bins/"$b"
-	done
+	bin="$(which "$b" | head -1)"
+	_onelf bundle-libs bins/"$b" --from-binary "$bin"
+	_onelf pack bins/"$b" -o "$b".bin --command bin/"$b" --level 22
+	mv "$b".bin am-bins/"$b"
 }
 
 # --------------------- QUICK-SHARUN
@@ -64,9 +66,7 @@ _quick_sharun() {
 }
 
 _use_quick_sharun() {
-	for b in $utils; do
-		_quick_sharun --make-static-bin --dst-dir am-bins "$(which "$b" | head -1)"
-	done
+	_quick_sharun --make-static-bin --dst-dir am-bins "$(which "$b" | head -1)"
 }
 
 # --------------------- SHARUN
@@ -83,24 +83,22 @@ _sharun() {
 }
 
 _use_sharun() {
-	for b in $utils; do
-		_sharun lib4bin --with-wrappe --dst-dir am-bins "$(which "$b" | head -1)"
-	done
+	_sharun lib4bin --with-wrappe --dst-dir am-bins "$(which "$b" | head -1)"
 }
 
 # --------------------- RUN ONE BETWEEN ONELF AND SHARUN
 
-#_use_onelf
-_use_quick_sharun
-#_use_sharun
-
-bins=$(ls ./am-bins/ | xargs)
-for b in $bins; do
+for b in $utils; do
 	pkgname=$(dpkg -S "$(which "$b")" 2>/dev/null | awk -F':' '{print $1}' | head -1)
 	pkgver=$(apt-cache show "$pkgname" 2>/dev/null | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
 	if [ -n "$pkgver" ]; then
-		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static
-		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static
+		#_use_onelf
+		_use_quick_sharun
+		#_use_sharun
+		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
+		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
+	else
+		printf "%b%b\n\n 💀 ERROR: cannot create %b \n\n%b\033[0m" "${RED}" "$DIVIDING_LINE" "$b" "$DIVIDING_LINE"
 	fi
 done
 
