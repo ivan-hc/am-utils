@@ -34,7 +34,7 @@ jobs:
 
           docker run --rm --platform $PLATFORM -v $PWD:/workspace -w /workspace $IMAGE bash -c "\
             apt-get update && \
-            apt-get install -y binutils busybox coreutils curl file findutils grep p7zip-full patchelf sed strace wget xz-utils zsync && \
+            apt-get install -y binutils busybox coreutils curl file findutils gawk grep p7zip-full patchelf sed strace wget xz-utils zsync && \
             chmod +x ./utils-generator.sh && \
             ./utils-generator.sh"
 
