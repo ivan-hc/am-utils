@@ -11,12 +11,12 @@ chmod chown chroot clear column cp curl cut \
 dd dirname \
 echo \
 file fold \
-grep \
+gawk grep \
 head \
 id \
 kill killall \
 less ln ls \
-md5sum mkdir more mount mv \
+mawk md5sum mkdir more mount mv \
 printf \
 readlink realpath rev rm \
 sed sh sha1sum sha256sum sha512sum sleep sort strings strip swapoff swapon \
