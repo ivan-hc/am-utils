@@ -65,25 +65,6 @@ jobs:
           mkdir -p merged
           find artifacts -type f -name "*-static" -exec cp {} merged/ \;
 
-      # Snapshot Release
-      - name: Get date
-        run: |
-          SNAPSHOT_TAG="$(date --utc +'%Y%m%d-%H%M%S')"
-          echo "SNAPSHOT_TAG=${SNAPSHOT_TAG}" >> "${GITHUB_ENV}"
-      - name: Create release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: "Snapshot Stable ${{ env.SNAPSHOT_TAG}}"
-          tag_name: "${{ env.SNAPSHOT_TAG}}"
-          prerelease: false
-          draft: false
-          generate_release_notes: false
-          make_latest: true
-          files: |
-            merged/*-static
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # Continuous release
       - name: Release (${{ matrix.arch }})
         uses: marvinpinto/action-automatic-releases@latest
