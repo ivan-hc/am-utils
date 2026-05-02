@@ -5,7 +5,7 @@ ARCH="$(uname -m)"
 #busybox_utils=$(busybox --list | xargs)
 #utils="7z file curl zsync $busybox_utils"
 utils="7z \
-ar \
+ar awk \
 base64 basename bzip2 \
 chmod chown chroot clear column cp curl cut \
 dd dirname \
@@ -91,8 +91,8 @@ _use_sharun() {
 # --------------------- RUN ONE BETWEEN ONELF AND SHARUN
 
 #_use_onelf
-#_use_quick_sharun
-_use_sharun
+_use_quick_sharun
+#_use_sharun
 
 bins=$(ls ./am-bins/ | xargs)
 for b in $bins; do
