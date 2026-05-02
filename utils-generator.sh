@@ -46,8 +46,7 @@ _onelf() {
 
 _use_onelf() {
 	mkdir -p am-bins
-	bin="$(which "$b" | head -1)"
-	_onelf bundle-libs bins/"$b" --from-binary "$bin"
+	_onelf bundle-libs bins/"$b" --from-binary "$binpath"
 	_onelf pack bins/"$b" -o "$b".bin --command bin/"$b" --level 22
 	mv "$b".bin am-bins/"$b"
 }
@@ -66,7 +65,7 @@ _quick_sharun() {
 }
 
 _use_quick_sharun() {
-	_quick_sharun --make-static-bin --dst-dir am-bins "$(which "$b" | head -1)"
+	_quick_sharun --make-static-bin --dst-dir am-bins "$binpath"
 }
 
 # --------------------- SHARUN
@@ -83,7 +82,7 @@ _sharun() {
 }
 
 _use_sharun() {
-	_sharun lib4bin --with-wrappe --dst-dir am-bins "$(which "$b" | head -1)"
+	_sharun lib4bin --with-wrappe --dst-dir am-bins "$binpath"
 }
 
 # --------------------- RUN ONE BETWEEN ONELF AND SHARUN
@@ -95,14 +94,15 @@ for b in $utils; do
 	if [ -n "$pkgver" ]; then
 		cmd_type="$(file "$(which "$b" | head -1)")"
 		if echo "$cmd_type" | grep -q POSIX; then
-			#b=$(strace -f -e execve "$b" 2>&1 | grep execve | tr '" ' '\n' | grep "^/.*/$b$" | tail -1)
-			_use_onelf
+			binpath=$(strace -f -e execve "$b" 2>&1 | grep execve | tr '" ' '\n' | grep "^/.*/$b$" | tail -1)
 		else
-			_use_quick_sharun
-			#_use_sharun
+			binpath=$(which "$b" | head -1)
 		fi
-		cp ./am-bins/"$name" ./"$name"_"$pkgver"-"${ARCH}"-static || exit 1
-		cp ./am-bins/"$name" ./"$name"-"${ARCH}"-static || exit 1
+		#_use_onelf
+		_use_quick_sharun
+		#_use_sharun
+		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
+		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
 	else
 		printf "%b%b\n\n 💀 ERROR: cannot create %b \n\n%b\033[0m" "${RED}" "$DIVIDING_LINE" "$bin" "$DIVIDING_LINE"
 	fi
