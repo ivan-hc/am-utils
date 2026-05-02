@@ -99,7 +99,7 @@ for b in $utils; do
 			binpath=$(which "$b" | head -1)
 		fi
 		if [ "$b" = 7z ]; then
-			mv ./am-bins/7zz ./am-bins/"$b" || ezit 1
+			mv ./am-bins/7zz ./am-bins/"$b" || exit 1
 		fi
 		#_use_onelf
 		_use_quick_sharun
