@@ -5,7 +5,7 @@ ARCH="$(uname -m)"
 #busybox_utils=$(busybox --list | xargs)
 #utils="7z file curl zsync $busybox_utils"
 utils="7z \
-ar awk \
+ar \
 base64 basename bzip2 \
 chmod chown chroot clear column cp curl cut \
 dd dirname \
