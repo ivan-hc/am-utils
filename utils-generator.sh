@@ -36,7 +36,7 @@ zcat zsync"
 _onelf() {
 	if ! command -v onelf 1>/dev/null; then
 		if [ ! -f ./onelf ]; then
-			echo " Downloading onelf..." && curl -#Lo onelf https://github.com/QaidVoid/onelf/releases/download/0.2.3/onelf-"$ARCH"-linux && chmod a+x ./onelf || exit 1
+			echo " Downloading onelf..." && curl -#Lo onelf https://github.com/QaidVoid/onelf/releases/download/0.2.5/onelf-"$ARCH"-linux && chmod a+x ./onelf || exit 1
 		fi
 		./onelf "$@"
 	else
@@ -89,20 +89,22 @@ _use_sharun() {
 # --------------------- RUN ONE BETWEEN ONELF AND SHARUN
 
 for b in $utils; do
+	name="$b"
 	pkgname=$(dpkg -S "$(which "$b")" 2>/dev/null | awk -F':' '{print $1}' | head -1)
 	pkgver=$(apt-cache show "$pkgname" 2>/dev/null | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
 	if [ -n "$pkgver" ]; then
 		cmd_type="$(file "$(which "$b" | head -1)")"
 		if echo "$cmd_type" | grep -q POSIX; then
-			b=$(strace -f -e execve "$b" 2>&1 | grep execve | tr '" ' '\n' | grep "^/.*/$b$" | tail -1)
+			#b=$(strace -f -e execve "$b" 2>&1 | grep execve | tr '" ' '\n' | grep "^/.*/$b$" | tail -1)
+			_use_onelf
+		else
+			_use_quick_sharun
+			#_use_sharun
 		fi
-		#_use_onelf
-		_use_quick_sharun
-		#_use_sharun
-		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
-		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
+		cp ./am-bins/"$name" ./"$name"_"$pkgver"-"${ARCH}"-static || exit 1
+		cp ./am-bins/"$name" ./"$name"-"${ARCH}"-static || exit 1
 	else
-		printf "%b%b\n\n 💀 ERROR: cannot create %b \n\n%b\033[0m" "${RED}" "$DIVIDING_LINE" "$b" "$DIVIDING_LINE"
+		printf "%b%b\n\n 💀 ERROR: cannot create %b \n\n%b\033[0m" "${RED}" "$DIVIDING_LINE" "$bin" "$DIVIDING_LINE"
 	fi
 done
 
