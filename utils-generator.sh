@@ -3,7 +3,7 @@
 ARCH="$(uname -m)"
 
 RED='\033[0;31m'
-command -v tput >/dev/null 2>&1 && TERMINAL_WIDTH="$(("$(tput cols)"-"3"))" || TERMINAL_WIDTH="${COLUMNS:-80}"
+TERMINAL_WIDTH="${COLUMNS:-80}"
 DIVIDING_LINE=$(printf '%*s' "$TERMINAL_WIDTH" '' | tr ' ' '-')
 
 #busybox_utils=$(busybox --list | xargs)
