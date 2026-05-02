@@ -35,6 +35,7 @@ jobs:
           docker run --rm --platform $PLATFORM -v $PWD:/workspace -w /workspace $IMAGE bash -c "\
             apt-get update && \
             apt-get install -y \
+              7zip-standalone \
               binutils bsdextrautils busybox bzip2 \
               coreutils curl \
               debianutils \
