@@ -96,10 +96,12 @@ _use_quick_sharun
 
 bins=$(ls ./am-bins/ | xargs)
 for b in $bins; do
-	pkgname=$(dpkg -S "$(which "$b")" | awk -F':' '{print $1}' | head -1)
-	pkgver=$(apt-cache show "$pkgname" | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
-	cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static
-	cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static
+	pkgname=$(dpkg -S "$(which "$b")" 2>/dev/null | awk -F':' '{print $1}' | head -1)
+	pkgver=$(apt-cache show "$pkgname" 2>/dev/null | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
+	if [ -n "$pkgver" ]; then
+		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static
+		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static
+	fi
 done
 
 echo "Success!"
