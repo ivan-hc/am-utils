@@ -26,7 +26,7 @@ readlink realpath rev rm \
 sed sh sha1sum sha256sum sha512sum sleep sort strings strip swapoff swapon \
 tail tar tee test tput top touch tr tty \
 umount uname uncompress uniq unshare unzip uptime \
-watch wc wget whoami \
+watch wc wget which whoami \
 xargs xz xzcat \
 yes \
 zcat zsync"
