@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        #arch: [x86_64, aarch64, i686]
-        arch: [x86_64, aarch64]
+        arch: [x86_64, aarch64, i686]
+        #arch: [x86_64, aarch64]
 
     steps:
       - name: Checkout repository
@@ -21,8 +21,8 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          #platforms: arm64,386
-          platforms: arm64
+          platforms: arm64,386
+          #platforms: arm64
 
       - name: Run script in container
         run: |
@@ -56,8 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        #arch: [x86_64, aarch64, i686]
-        arch: [x86_64, aarch64]
+        arch: [x86_64, aarch64, i686]
+        #arch: [x86_64, aarch64]
 
     steps:
       - name: Download all artifacts
@@ -71,23 +71,23 @@ jobs:
           find artifacts -type f -name "*-static" -exec cp {} merged/ \;
 
       # Snapshot Release
-      #- name: Get date
-      #  run: |
-      #    SNAPSHOT_TAG="$(date --utc +'%Y%m%d-%H%M%S')"
-      #    echo "SNAPSHOT_TAG=${SNAPSHOT_TAG}" >> "${GITHUB_ENV}"
-      #- name: Create release
-      #  uses: softprops/action-gh-release@v2
-      #  with:
-      #    name: "Snapshot Stable ${{ env.SNAPSHOT_TAG}}"
-      #    tag_name: "${{ env.SNAPSHOT_TAG}}"
-      #    prerelease: false
-      #    draft: false
-      #    generate_release_notes: false
-      #    make_latest: false
-      #    files: |
-      #      merged/*-static
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get date
+        run: |
+          SNAPSHOT_TAG="$(date --utc +'%Y%m%d-%H%M%S')"
+          echo "SNAPSHOT_TAG=${SNAPSHOT_TAG}" >> "${GITHUB_ENV}"
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Snapshot Stable ${{ env.SNAPSHOT_TAG}}"
+          tag_name: "${{ env.SNAPSHOT_TAG}}"
+          prerelease: false
+          draft: false
+          generate_release_notes: false
+          make_latest: false
+          files: |
+            merged/*-static
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Continuous release
       - name: Release (${{ matrix.arch }})
