@@ -8,7 +8,7 @@ DIVIDING_LINE=$(printf '%*s' "$TERMINAL_WIDTH" '' | tr ' ' '-')
 
 #busybox_utils=$(busybox --list | xargs)
 #utils="7z file curl zsync $busybox_utils"
-utils="7z \
+utils="7zz \
 ar \
 base64 basename bzip2 \
 chmod chown chroot clear column cp curl cut \
@@ -98,9 +98,13 @@ for b in $utils; do
 		else
 			binpath=$(which "$b" | head -1)
 		fi
+
 		#_use_onelf
 		_use_quick_sharun
 		#_use_sharun
+
+		[ "$b" = 7zz ] && mv ./am-bins/"$b" ./am-bins/7z && b="7z"
+
 		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
 		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
 	else
