@@ -8,7 +8,7 @@ DIVIDING_LINE=$(printf '%*s' "$TERMINAL_WIDTH" '' | tr ' ' '-')
 
 #busybox_utils=$(busybox --list | xargs)
 #utils="7z file curl zsync $busybox_utils"
-utils="7zz \
+utils="7z \
 ar \
 base64 basename bzip2 \
 chmod chown chroot clear column cp curl cut \
@@ -93,18 +93,17 @@ for b in $utils; do
 	pkgver=$(apt-cache show "$pkgname" 2>/dev/null | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
 	if [ -n "$pkgver" ]; then
 		cmd_type="$(file "$(which "$b" | head -1)")"
-		if echo "$cmd_type" | grep -q POSIX; then
-			binpath=$(strace -f -e execve "$b" 2>&1 | grep execve | tr '" ' '\n' | grep "^/.*/$b$" | tail -1)
+		if [ "$b" = 7z ]; then
+			binpath="/usr/lib/7zip/7zz"
 		else
 			binpath=$(which "$b" | head -1)
 		fi
-
+		if [ "$b" = 7z ]; then
+			mv ./am-bins/7zz ./am-bins/"$b" || ezit 1
+		fi
 		#_use_onelf
 		_use_quick_sharun
 		#_use_sharun
-
-		[ "$b" = 7zz ] && mv ./am-bins/"$b" ./am-bins/7z && b="7z"
-
 		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
 		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
 	else
