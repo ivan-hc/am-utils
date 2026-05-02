@@ -98,12 +98,12 @@ jobs:
       - name: create snapshot
         uses: softprops/action-gh-release@v2
         with:
-          name: "Snapshot ${{ env.SNAPSHOT_TAG}}-${{ matrix.arch }}"
-          tag_name: "${{ env.SNAPSHOT_TAG}}-${{ matrix.arch }}"
+          name: "${{ matrix.arch }}-${{ env.SNAPSHOT_TAG}}"
+          tag_name: "${{ matrix.arch }}-${{ env.SNAPSHOT_TAG}}"
           prerelease: true
           draft: false
           generate_release_notes: false
           make_latest: false
           files: |
-            merged/*_*-${{ matrix.arch }}-static
+            merged/*-${{ matrix.arch }}-static
         continue-on-error: false
