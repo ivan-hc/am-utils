@@ -100,7 +100,7 @@ jobs:
         with:
           name: "Snapshot ${{ env.SNAPSHOT_TAG}}-${{ matrix.arch }}"
           tag_name: "${{ env.SNAPSHOT_TAG}}-${{ matrix.arch }}"
-          prerelease: false
+          prerelease: true
           draft: false
           generate_release_notes: false
           make_latest: false
