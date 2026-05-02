@@ -23,7 +23,7 @@ less ln ls \
 mawk md5sum mkdir more mount mv \
 printf \
 readlink realpath rev rm \
-sed sh sha1sum sha256sum sha512sum sleep sort strings strip swapoff swapon \
+sed sh sha1sum sha256sum sha512sum sleep sort strace strings strip swapoff swapon \
 tail tar tee test tput top touch tr tty \
 umount uname uncompress uniq unshare unzip uptime \
 watch wc wget which whoami \
@@ -92,6 +92,10 @@ for b in $utils; do
 	pkgname=$(dpkg -S "$(which "$b")" 2>/dev/null | awk -F':' '{print $1}' | head -1)
 	pkgver=$(apt-cache show "$pkgname" 2>/dev/null | grep -i version | awk '{print $2}' | head -1 | tr ':' '\n' | tail -1)
 	if [ -n "$pkgver" ]; then
+		cmd_type="$(file "$(which "$b" | head -1)")"
+		if echo "$cmd_type" | grep -q POSIX; then
+			b=$(strace -f -e execve "$b" 2>&1 | grep execve | tr '" ' '\n' | grep "^/.*/$b$" | tail -1)
+		fi
 		#_use_onelf
 		_use_quick_sharun
 		#_use_sharun
