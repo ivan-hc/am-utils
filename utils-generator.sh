@@ -25,7 +25,7 @@ printf \
 readlink realpath rev rm \
 sed sh sha1sum sha256sum sha512sum sleep sort strace strings strip swapoff swapon \
 tail tar tee test tput top touch tr tty \
-umount uname uncompress uniq unshare unzip uptime \
+umount uname uncompress uniq unshare unxz unzip uptime \
 watch wc wget which whoami \
 xargs xz xzcat \
 yes \
