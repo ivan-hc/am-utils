@@ -97,8 +97,8 @@ for b in $utils; do
 		if [ "$b" = 7z ]; then binpath="/usr/lib/7zip/7zz"
 		else	binpath=$(which "$b" | head -1); fi
 		
-		#_use_onelf
-		_use_quick_sharun
+		_use_onelf
+		#_use_quick_sharun
 		#_use_sharun
 
 		if [ "$b" = 7z ]; then mv ./am-bins/7zz ./am-bins/"$b" || exit 1; fi
