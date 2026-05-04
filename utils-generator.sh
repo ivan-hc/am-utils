@@ -89,6 +89,7 @@ _use_sharun() {
 
 # --------------------- RUN ONE BETWEEN ONELF AND SHARUN
 
+rm -Rf "${ARCH}".sha256sum.txt
 for b in $utils; do
 	name="$b"
 	pkgname=$(dpkg -S "$(which "$b")" 2>/dev/null | awk -F':' '{print $1}' | head -1)
@@ -106,6 +107,7 @@ for b in $utils; do
 
 		cp ./am-bins/"$b" ./"$b"_"$pkgver"-"${ARCH}"-static || exit 1
 		cp ./am-bins/"$b" ./"$b"-"${ARCH}"-static || exit 1
+		sha256sum "$b"-"${ARCH}"-static >> "${ARCH}".sha256sum.txt
 	else
 		printf "%b%b\n\n 💀 ERROR: cannot create %b \n\n%b\033[0m" "${RED}" "$DIVIDING_LINE" "$bin" "$DIVIDING_LINE"
 	fi
