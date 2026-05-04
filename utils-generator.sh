@@ -50,7 +50,7 @@ _use_onelf() {
 	binname=$(echo "$binpath" | sed 's:.*/::')
 	_onelf bundle-libs bins/"$binname" --from-binary "$binpath"
 	_onelf pack bins/"$binname" -o "$binname".bin --command bin/"$binname" --level 22
-	mv "$binname".bin am-bins/"$b"
+	mv "$binname".bin am-bins/"$binname"
 }
 
 # --------------------- QUICK-SHARUN
