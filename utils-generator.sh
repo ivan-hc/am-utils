@@ -20,6 +20,7 @@ head \
 id \
 kill killall \
 less ln ls \
+notify-send \
 mawk md5sum mkdir more mount mv \
 printf \
 readlink realpath rev rm \
