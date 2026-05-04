@@ -12,7 +12,7 @@ utils="7z \
 ar \
 base64 basename bzip2 \
 chmod chown chroot clear column cp curl cut \
-dd dirname \
+dd diff dirname \
 echo \
 file fold \
 gawk grep \
