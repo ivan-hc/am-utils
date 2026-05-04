@@ -47,9 +47,10 @@ _onelf() {
 
 _use_onelf() {
 	mkdir -p am-bins
-	_onelf bundle-libs bins/"$b" --from-binary "$binpath"
-	_onelf pack bins/"$b" -o "$b".bin --command bin/"$b" --level 22
-	mv "$b".bin am-bins/"$b"
+	binname=$(echo "$binpath" | sed 's:.*/::')
+	_onelf bundle-libs bins/"$binname" --from-binary "$binpath"
+	_onelf pack bins/"$binname" -o "$binname".bin --command bin/"$binname" --level 22
+	mv "$binname".bin am-bins/"$b"
 }
 
 # --------------------- QUICK-SHARUN
