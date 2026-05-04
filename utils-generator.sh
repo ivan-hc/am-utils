@@ -11,7 +11,7 @@ DIVIDING_LINE=$(printf '%*s' "$TERMINAL_WIDTH" '' | tr ' ' '-')
 utils="7z \
 ar \
 base64 basename bzip2 \
-chmod chown chroot clear column cp curl cut \
+cat chmod chown chroot clear column cp curl cut \
 dd diff dirname du \
 echo \
 file fold \
@@ -27,7 +27,7 @@ readlink realpath rev rm \
 sed sh sha1sum sha256sum sha512sum sleep sort strace strings strip swapoff swapon \
 tail tar tee test tput top touch tr tty \
 umount uname uncompress uniq unshare unxz unzip uptime \
-watch wc wget which whoami \
+watch wc wget which \
 xargs xz xzcat \
 yes \
 zcat zsync"
