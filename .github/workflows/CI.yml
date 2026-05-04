@@ -53,6 +53,7 @@ jobs:
 
           mkdir -p dist
           cp ./*-"${{ matrix.arch }}"-static dist/
+          cp ./*.sha256sum.txt dist/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4.4.0
@@ -77,6 +78,7 @@ jobs:
         run: |
           mkdir -p merged
           find artifacts -type f -name "*-static" -exec cp {} merged/ \;
+          find artifacts -type f -name "*.sha256sum.txt" -exec cp {} merged/ \;
 
       # Continuous release
       - name: Release (${{ matrix.arch }})
@@ -88,6 +90,7 @@ jobs:
           draft: false
           files: |
             merged/*-${{ matrix.arch }}-static
+            merged/${{ matrix.arch }}.sha256sum.txt
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
       # Snapshot Release
@@ -107,4 +110,5 @@ jobs:
           make_latest: false
           files: |
             merged/*-${{ matrix.arch }}-static
+            merged/${{ matrix.arch }}.sha256sum.txt
         continue-on-error: false
