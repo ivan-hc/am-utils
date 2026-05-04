@@ -41,7 +41,7 @@ jobs:
               debianutils \
               file findutils \
               gawk grep \
-              less \
+              less libnotify-bin \
               p7zip-full patchelf procps psmisc \
               sed strace \
               unzip \
