@@ -8,7 +8,7 @@ Supported architectures:
 
 ------------------------------------------------------------------------
 
-## Rationale
+## Motivation
 
 This suite was created to provide the AM package manager with a set of "temporary" dependencies that can be used as a fallback for the correct functioning of AM if the user does not have the necessary commands installed on the host system.
 
