@@ -6,7 +6,19 @@ Supported architectures:
 - [x86_64](https://github.com/ivan-hc/am-utils/releases/tag/continuous-x86_64)
 - [aarch64](https://github.com/ivan-hc/am-utils/releases/tag/continuous-aarch64)
 
-Any improvement is welcome.
+------------------------------------------------------------------------
+
+## Rationale
+
+This suite was created to provide the AM package manager with a set of "temporary" dependencies that can be used as a fallback for the correct functioning of AM if the user does not have the necessary commands installed on the host system.
+
+This led to the idea of ​​increasing the number of core programs to cover more needs.
+
+## Limitations
+
+These binaries are based on Debian Unstable. Although they are static, not all are fully compatible with FreeBSD and derivatives.
+
+**Any improvement is welcome.**
 
 ------------------------------------------------------------------------
 
