@@ -9,25 +9,28 @@ DIVIDING_LINE=$(printf '%*s' "$TERMINAL_WIDTH" '' | tr ' ' '-')
 #busybox_utils=$(busybox --list | xargs)
 #utils="7z file curl zsync $busybox_utils"
 utils="7z \
-ar \
-base64 basename bzip2 \
-cat chmod chown chroot clear column cp curl cut \
-dd diff dirname du \
-echo \
-file fold \
-gawk grep \
-head \
-id \
+addr2line ar arch as \
+b2sum base32 base64 basename basenc bzip2 \
+cat c++filt chcon chgrp chmod chown chroot cksum clear col colcrt colrm column comm cp csplit curl cut \
+date dd df diff dir dircolors dirname du \
+echo elfedit env expand expr \
+factor false file find fmt fold \
+gawk gp-archive gp-collect-app gp-display-html gp-display-src gp-display-text gprof gprofng gprofng-archive gprofng-collect-app gprofng-display-html gprofng-display-src gprofng-display-text gprofng-gmon grep groups \
+hd head hexdump hostid \
+id install \
+join \
 kill killall \
-less ln ls \
-notify-send \
-mawk md5sum mkdir more mount mv \
-printf \
-readlink realpath rev rm \
-sed sh sha1sum sha256sum sha512sum sleep sort strace strings strip swapoff swapon \
-tail tar tee test tput top touch tr tty \
-umount uname uncompress uniq unshare unxz unzip uptime \
-watch wc wget \
+ld ld.bfd less link ln logname look ls \
+mawk md5sum mkdir mkfifo mknod mktemp more mount mv \
+nice nl nm nohup notify-send nproc numfmt \
+objcopy objdump od \
+paste pathchk pinky pr printenv printf ptx pwd \
+ranlib readelf readlink realpath rev rm rmdir runcon \
+sed seq sh sha1sum sha224sum sha256sum sha384sum sha512sum shred shuf size sleep sort split stat stdbuf strace strings strip stty sum swapoff swapon sync \
+tac tail tar tee test timeout top touch tput tr true truncate tsort tty \
+ul umount uname uncompress unexpand uniq unlink unshare unxz unzip uptime users \
+vdir \
+watch wc wget who whoami \
 xargs xz xzcat \
 yes \
 zcat zsync"
