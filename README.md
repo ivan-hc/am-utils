@@ -22,6 +22,28 @@ These binaries are based on Debian Unstable. Although they are static, not all a
 
 ------------------------------------------------------------------------
 
+## Fallback Dependencies in [AM](https://github.com/ivan-hc/AM) and [AppMan](https://github.com/ivan-hc/AppMan)
+
+When using the AM/AppMan package manager, you'll likely be prompted to install or temporarily download the missing commands if there are any missing dependencies.
+
+If you decide to use them temporarily, AM/AppMan will temporarily cache them in a temporary directory that will be used as $PATH for their execution while using AM/AppMan.
+
+With the `-c` or `clean` option, this directory will be emptied, and the next time you use it, you'll be prompted again to download the missing dependencies.
+
+### Set amdeps_on=true to download fallback dependencies not interactively
+
+Sometimes these commands are required for automatic processes to function correctly, and responding to the prompt becomes a bit difficult. And having them downloaded continuously every time you use `-c` in AM/AppMan can get annoying.
+
+To resolve this, simply export the `$amdeps_on` variable to `true`, like this:
+```
+export amdeps_on=true=true
+```
+This way, AM/AppMan will download these fallback commands without prompting.
+
+NOTE: It's best to install these commands from your system package manager rather than using temporary static binaries as a fallback. This repository doesn't update its binaries often, and only makes them available when absolutely necessary.
+
+------------------------------------------------------------------------
+
 ## Install and update them all with ease
 
 ### *"*AM*" Application Manager* 
